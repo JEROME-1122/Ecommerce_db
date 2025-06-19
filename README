@@ -1,1 +1,68 @@
+Requirements
 
+1) Create a database named ecommerce
+  CREATE DATABASE ecommerce;
+
+2) Create three tables: customers, orders, and products.
+  Customer table
+    CREATE TABLE customers ( Id INT Primary KEY, name VARCHAR(100), email VARCHAR(100), address VARCHAR(100));
+
+  Order table
+    CREATE TABLE order ( Id INT Primary KEY, customer_id INT, order_date DATE, total_amount DECIMAL(10,2),FOREIGN KEY (customer_id) REFERENCES customers(id));
+
+  Products table
+    CREATE TABLE products ( Id INT Primary KEY, name VARCHAR(100), price DECIMAL(10,2),decription VARCHAR(200));
+
+3) Insert some sample data into the tables.
+  customer table
+    INSERT INTO customers (name, email,address) VALUES 
+    ("Person1" ,"peroson1@gmaail.com", "peroson 1 address"),
+    ("Person2" ,"peroson2@gmaail.com", "peroson 2 address"),
+    ("Person3" ,"peroson1@gmaail.com", "peroson 3 address");
+
+  products table
+    INSERT INTO products (name, price, decription) VALUES
+    ("Product1" ,55.00, "product 1 details"),
+    ("Product2" ,100.00, "product 2 details"),
+    ("Product3" ,77.00, "product 3 details"),
+
+  Order table
+    INSERT INTO order (customer_id, order_date, total_amount) VALUES
+    (1 ,CURDATE()-INTERVAL 10 DAY , 100),   // CURDATE() means current date with added interval 10,20  minus today date to interval limit date 
+    (2 ,CURDATE()-INTERVAL 20 DAY , 170),
+    (3 ,CURDATE()-INTERVAL 25 DAY , 350),
+    (2 ,CURDATE()-INTERVAL 35 DAY , 1100),
+
+
+
+Queries to Write: 
+1) Retrieve all customers who have placed an order in the last 30 days.
+    SELECT DISTINCT  customers.* FROM customers  JOIN order ON  customers.id= order.customer_id  WHERE order.order_date> CURDATE()- INTERVAL 30 DAY;   // JOin the customer id and order customerid using left join and add the condition order_date is lef then less then equal  CURDATE()- INTERVAL 30 DAY( minus the current date to 30 day interveal)
+
+2) Get the total amount of all orders placed by each customer.
+    SELECT customers.name , SUM(order.total_amount) AS total FROM  customers  JOIN order ON customers.id=order.customer_id GROUP BY custtomers.id;
+
+3) Update the price of Product C  to 45.00. (here we mention  name product3)
+    UPDATE products SET price=45 WHERE name="Product3";
+
+4) Add a new column discount to the products table.
+    ALTER TABLE products ADD COLUMN (discount DECIMAL(5,2))   // 5 means taotaly 5 number   , 2 means after the decial point number  after . ex 999.99
+
+5) Retrieve the top 3 products with the highest price.
+    SELECT * from products ORDER BY price DSEC LIMIT 3;     // order the price table in descending  order and  and set the limit 3
+
+6) Get the names of customers who have ordered Product A.
+
+7) Join the orders and customers tables to retrieve the customer's name and order date for each order. 
+    SELECT customers.name , order.order_date FROM customers  JOIN order ON order.customer_id=customers.id;   // Join the customer name and date if customer id= order. customer_id using LEFT JOIN
+
+8) Retrieve the orders with a total amount greater than 150.00.
+    SELECT * from orders WHERE total_amout>150.00;          // diaplay all the total amount grater then 150
+
+9) Normalize the database by creating a separate table for order items and updating the orders table to reference the order_items table.
+   
+
+10) Retrieve the average total of all orders.
+    SELECT AVG(total_amount) AS average_order_total FROM orders;  // store the average total in average_order_total 
+
+    
