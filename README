@@ -59,7 +59,7 @@ Queries to Write:
   JOIN products ON order_items.product_id = products.id
   WHERE products.name = 'Product A';
 7) Join the orders and customers tables to retrieve the customer's name and order date for each order. 
-    SELECT customers.name , order.order_date FROM customers  JOIN order ON order.customer_id=customers.id;   // Join the customer name and date if customer id= order. customer_id using LEFT JOIN
+    SELECT customers.name , order.order_date FROM customers  JOIN order ON order.customer_id=customers.id;   // Join the customer name and date if customer id= order. customer_id using  JOIN
 
 8) Retrieve the orders with a total amount greater than 150.00.
     SELECT * from orders WHERE total_amout>150.00;          // diaplay all the total amount grater then 150
