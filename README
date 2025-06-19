@@ -22,9 +22,9 @@ Requirements
 
   products table
     INSERT INTO products (name, price, decription) VALUES
-    ("Product1" ,55.00, "product 1 details"),
-    ("Product2" ,100.00, "product 2 details"),
-    ("Product3" ,77.00, "product 3 details"),
+    ("ProductA" ,55.00, "product A details"),
+    ("ProductB ,100.00, "product B details"),
+    ("ProductC" ,77.00, "product C details"),
 
   Order table
     INSERT INTO order (customer_id, order_date, total_amount) VALUES
@@ -42,8 +42,8 @@ Queries to Write:
 2) Get the total amount of all orders placed by each customer.
     SELECT customers.name , SUM(order.total_amount) AS total FROM  customers  JOIN order ON customers.id=order.customer_id GROUP BY custtomers.id;
 
-3) Update the price of Product C  to 45.00. (here we mention  name product3)
-    UPDATE products SET price=45 WHERE name="Product3";
+3) Update the price of Product C  to 45.00. 
+    UPDATE products SET price=45 WHERE name="Product C";
 
 4) Add a new column discount to the products table.
     ALTER TABLE products ADD COLUMN (discount DECIMAL(5,2))   // 5 means taotaly 5 number   , 2 means after the decial point number  after . ex 999.99
@@ -52,7 +52,12 @@ Queries to Write:
     SELECT * from products ORDER BY price DSEC LIMIT 3;     // order the price table in descending  order and  and set the limit 3
 
 6) Get the names of customers who have ordered Product A.
-
+  SELECT DISTINCT customers.name
+  FROM customers
+  JOIN orders ON customers.id = orders.customer_id
+  JOIN order_items ON orders.id = order_items.order_id
+  JOIN products ON order_items.product_id = products.id
+  WHERE products.name = 'Product A';
 7) Join the orders and customers tables to retrieve the customer's name and order date for each order. 
     SELECT customers.name , order.order_date FROM customers  JOIN order ON order.customer_id=customers.id;   // Join the customer name and date if customer id= order. customer_id using LEFT JOIN
 
@@ -60,7 +65,14 @@ Queries to Write:
     SELECT * from orders WHERE total_amout>150.00;          // diaplay all the total amount grater then 150
 
 9) Normalize the database by creating a separate table for order items and updating the orders table to reference the order_items table.
-   
+  CREATE TABLE order_items (id INT AUTO_INCREMENT PRIMARY KEY,order_id INT,product_id INT,quantity INT, 
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+  );
+  INSERT INTO order_items (order_id, product_id, quantity) VALUES
+  (1, 1, 2),  
+  (1, 2, 1), 
+  (2, 3, 1); 
 
 10) Retrieve the average total of all orders.
     SELECT AVG(total_amount) AS average_order_total FROM orders;  // store the average total in average_order_total 
