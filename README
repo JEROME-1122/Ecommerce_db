@@ -57,7 +57,7 @@ Queries to Write:
   JOIN orders ON customers.id = orders.customer_id
   JOIN order_items ON orders.id = order_items.order_id
   JOIN products ON order_items.product_id = products.id
-  WHERE products.name = 'Product A';
+  WHERE products.name = 'Product A';    
 7) Join the orders and customers tables to retrieve the customer's name and order date for each order. 
     SELECT customers.name , order.order_date FROM customers  JOIN order ON order.customer_id=customers.id;   // Join the customer name and date if customer id= order. customer_id using  JOIN
 
@@ -72,7 +72,7 @@ Queries to Write:
   INSERT INTO order_items (order_id, product_id, quantity) VALUES
   (1, 1, 2),  
   (1, 2, 1), 
-  (2, 3, 1); 
+  (2, 3, 1);  // creating the table and insert the datas
 
 10) Retrieve the average total of all orders.
     SELECT AVG(total_amount) AS average_order_total FROM orders;  // store the average total in average_order_total 
